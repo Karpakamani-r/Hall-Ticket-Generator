@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hall Ticket</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .hall-ticket {
+            width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 2px solid #000;
+            text-align: center;
+            position: relative;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .college-logo img {
+            width: 80px;
+        }
+
+        .college-info {
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .college-info h2, .college-info p, .college-info h3 {
+            margin: 5px 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .student-photo {
+            width: 100px;
+            height: 120px;
+            border: 1px solid #000;
+            background: #f0f0f0;
+            text-align: center;
+            line-height: 120px;
+        }
+
+        .hall-ticket-details {
+            text-align: left;
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .student-details {
+            width: 65%;
+        }
+
+        .subjects h3 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table th, table td {
+            padding: 8px;
+            border: 1px solid #000;
+            text-align: center;
+        }
+
+        .signatures {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Extract parameters from URL
+            const urlParams = new URLSearchParams(window.location.search);
+<!--            const regNo = urlParams.get("regNo");-->
+<!--            const dob = urlParams.get("dob");-->
+
+            const regNo = `23MS1909`;
+            const dob = `01-01-2005`;
+
+            if (!regNo || !dob) {
+                alert("Invalid access! Missing Registration Number or Date of Birth.");
+                return;
+            }
+
+<!--            // Format DOB (YYYY-MM-DD to DD-MM-YYYY)-->
+<!--            function formatDate(dob) {-->
+<!--                const parts = dob.split("-");-->
+<!--                return `${parts[2]}-${parts[1]}-${parts[0]}`;-->
+<!--            }-->
+
+            // API URL
+            const apiUrl = `https://script.google.com/macros/s/AKfycbxuDIRN-PD42CGd_5TwDnm3v4hqiwKomYlL2P1ce7_UxzC_5LOG-z8-NfPrM0Zs-t6C3g/exec?regNo=${regNo}&dob=${dob}`;
+            console.error("URL:", apiUrl);
+
+            // Fetch Hall Ticket Data
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.success) {
+                        alert("No hall ticket found for the given details.");
+                        return;
+                    }
+                    const result = transformData(data.rows);
+
+                  console.log("NAME----", result);
+
+                    // Fill student details
+                    document.getElementById("name").textContent = result.name;
+                    document.getElementById("course").textContent = result.course;
+                    document.getElementById("branch").textContent = result.branch;
+                    document.getElementById("regNo").textContent = result.regNo;
+
+                    // Set student photo (if available)
+                    document.getElementById("profilePhoto").src = result.profileImage || "default.jpg";
+
+                    // Fill subjects table
+                    const subjectsTable = document.getElementById("subjectsTable");
+                    subjectsTable.innerHTML = ""; // Clear old rows
+
+                    result.subjects.forEach(subject => {
+                        const row = `<tr>
+                            <td>${subject.subCode}</td>
+                            <td>${subject.subName}</td>
+                            <td>${subject.examDate}</td>
+                            <td></td>
+                        </tr>`;
+                        subjectsTable.innerHTML += row;
+                    });
+                })
+                .catch(error => {
+                console.error("failed",error)
+                    alert("Failed to load hall ticket. Try again later.");
+                });
+        });
+
+function transformData(data) {
+    let result = {};
+    data.forEach(item => {
+        if (!result[item.regNo]) {
+            result[item.regNo] = {
+                name: item[0],
+                regNo: item[1],
+                dob: item[2],
+                profileImage: item[3],
+                course: item[4],
+                branch: item[5],
+                subjects: []
+            };
+        }
+
+        result[item.regNo].subjects.push({
+            subNo: item[6],
+            subCode: item[7],
+            subName: item[8],
+            examDate: item[9]
+        });
+    });
+    console.log("📌 Final Transformed Data:", result);
+    return result.undefined;
+}
+    </script>
+</head>
+<body>
+<div class="hall-ticket">
+    <div class="header">
+        <div class="college-logo">
+            <img src="gvg-logo.png" alt="College Logo" width="225" height="80">
+        </div>
+        <div class="college-info">
+            <h2>Sri G.V.G. Visalakshi College for Women,Udumalpet</h2>
+            <p>End Semester Examination - November 2025</p>
+            <h3>HALL TICKET</h3>
+        </div><br>
+        <div class="student-photo">
+            <img id="profilePhoto" src="stu.jpg" alt=" Photo" width="100" height="120">
+        </div>
+    </div>
+
+    <div class="hall-ticket-details">
+        <div class="student-details">
+            <strong>Course:</strong> <span id="course">Loading...</span> <br>
+            <strong>Branch:</strong> <span id="branch">Loading...</span> <br>
+            <strong>Reg No:</strong> <span id="regNo">Loading...</span> <br>
+            <strong>Name:</strong> <span id="name">Loading...</span> <br>
+        </div>
+    </div>
+
+    <div class="subjects" >
+        <h3>Subject Details</h3>
+        <table>
+            <thead>
+            <tr>
+                <th>Subject Code</th>
+                <th>Subject Title</th>
+                <th>Date</th>
+                <th>Invigilator Sign</th>
+            </tr>
+            </thead>
+            <tbody id="subjectsTable">
+            <tr><td colspan="4">Loading subjects...</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <br><br>
+    <div class="signatures">
+        <div class="principal-sign"><strong>Principal:</strong></div>
+        <div class="controller-sign"><strong>Controller of Examinations:</strong></div>
+    </div>
+</div>
+<br><br>
+</body>
+</html>
