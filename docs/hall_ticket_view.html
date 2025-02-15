@@ -87,22 +87,17 @@
         document.addEventListener("DOMContentLoaded", function () {
             // Extract parameters from URL
             const urlParams = new URLSearchParams(window.location.search);
-<!--            const regNo = urlParams.get("regNo");-->
-<!--            const dob = urlParams.get("dob");-->
 
-            const regNo = `23MS1909`;
-            const dob = `01-01-2005`;
+            const regNo = urlParams.get("regNo");
+            const dob = urlParams.get("dob");
+
+            // const regNo = `23MS1909`;
+            // const dob = `01-01-2005`;
 
             if (!regNo || !dob) {
                 alert("Invalid access! Missing Registration Number or Date of Birth.");
                 return;
             }
-
-<!--            // Format DOB (YYYY-MM-DD to DD-MM-YYYY)-->
-<!--            function formatDate(dob) {-->
-<!--                const parts = dob.split("-");-->
-<!--                return `${parts[2]}-${parts[1]}-${parts[0]}`;-->
-<!--            }-->
 
             // API URL
             const apiUrl = `https://script.google.com/macros/s/AKfycbxuDIRN-PD42CGd_5TwDnm3v4hqiwKomYlL2P1ce7_UxzC_5LOG-z8-NfPrM0Zs-t6C3g/exec?regNo=${regNo}&dob=${dob}`;
