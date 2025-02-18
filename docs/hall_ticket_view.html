@@ -163,12 +163,26 @@ function transformData(data) {
             subNo: item[6],
             subCode: item[7],
             subName: item[8],
-            examDate: item[9]
+            examDate: formatDate(item[9])
         });
     });
     console.log("📌 Final Transformed Data:", result);
     return result.undefined;
 }
+function formatDate(inputDate) {
+    let date = new Date(inputDate);
+
+    if (isNaN(date.getTime())) {
+        return "Invalid Date"; // Handle invalid date input
+    }
+
+    let month = ("0" + (date.getMonth() + 1)).slice(-2); // Add leading zero
+    let day = ("0" + date.getDate()).slice(-2);
+    let year = date.getFullYear();
+
+    return `${day}-${month}-${year}`;
+}
+
     </script>
 </head>
 <body>
