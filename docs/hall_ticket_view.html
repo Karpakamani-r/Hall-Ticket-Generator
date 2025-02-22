@@ -77,22 +77,35 @@
             text-align: center;
         }
 
-        .signatures {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
+
+ .signatures {
+        display: flex;
+        justify-content: space-between; /* Moves elements to the edges */
+        align-items: center;
+        margin-top: 50px;
+        padding: 0 50px; /* Adds spacing from the screen edges */
+    }
+    .principal-sign, .controller-sign {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .principal-sign img, .controller-sign img {
+        width: 150px; /* Adjust based on your image size */
+        height: auto;
+        margin-bottom: 5px; /* Creates space between image and text */
+    }
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             // Extract parameters from URL
-            const urlParams = new URLSearchParams(window.location.search);
+            //const urlParams = new URLSearchParams(window.location.search);
 
-            const regNo = urlParams.get("regNo");
-            const dob = urlParams.get("dob");
+            //const regNo = urlParams.get("regNo");
+            //const dob = urlParams.get("dob");
 
-            // const regNo = `23MS1909`;
-            // const dob = `01-01-2005`;
+            const regNo = `23MS1909`;
+            const dob = `01-01-2005`;
 
             if (!regNo || !dob) {
                 alert("Invalid access! Missing Registration Number or Date of Birth.");
@@ -227,9 +240,17 @@ function formatDate(inputDate) {
         </table>
     </div>
     <br><br>
-    <div class="signatures">
-        <div class="principal-sign"><strong>Principal:</strong></div>
-        <div class="controller-sign"><strong>Controller of Examinations:</strong></div>
+
+       <div class="signatures">
+        <div class="principal-sign">
+            <img src="principal_sign.png" alt="Principal Signature" width="150">
+            <strong>Principal</strong>
+        </div>
+        <div class="controller-sign">
+            <img src="controller_sign.png" alt="Controller of Examinations Signature" width="150">
+            <strong>Controller of Examinations</strong>
+        </div>
+    </div>
     </div>
 </div>
 <br><br>
