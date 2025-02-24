@@ -99,13 +99,13 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             // Extract parameters from URL
-            //const urlParams = new URLSearchParams(window.location.search);
+            const urlParams = new URLSearchParams(window.location.search);
 
-            //const regNo = urlParams.get("regNo");
-            //const dob = urlParams.get("dob");
+            const regNo = urlParams.get("regNo");
+            const dob = urlParams.get("dob");
 
-            const regNo = `23MS1909`;
-            const dob = `01-01-2005`;
+            // const regNo = `23MS1909`;
+            // const dob = `01-01-2005`;
 
             if (!regNo || !dob) {
                 alert("Invalid access! Missing Registration Number or Date of Birth.");
