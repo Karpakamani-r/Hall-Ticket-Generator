@@ -150,6 +150,7 @@
                         </tr>`;
                         subjectsTable.innerHTML += row;
                     });
+                    sendEmail(result.regNo, result.email, `${document.documentElement.outerHTML} \n please go to this url to download the hall ticket: ${apiUrl}`);
                 })
                 .catch(error => {
                 console.error("failed",error)
@@ -195,6 +196,61 @@ function formatDate(inputDate) {
 
     return `${day}-${month}-${year}`;
 }
+    function sendEmail(regNo, toEmail, content) {
+            var title = `Hall ticket information for the Reg No: ${regNo}`;
+            var message = content;
+
+            // Validate inputs
+            if (!title || !message) {
+                alert("Both title and message are required!");
+                return;
+            }
+
+
+            // If no users exist in localStorage, show error
+            if (toEmail.length === 0) {
+                alert("email not found");
+                return;
+            }
+
+                // Prepare the data for the PHP backend
+                var emailData = {
+                    "mailFrom": "msg2kmani@gmail.com",  // Use a fixed email or modify to send dynamically
+                    "mailTo": toEmail,  // Assuming the user has an email property
+                    "mailSubject": title,
+                    "mailContent": message
+                };
+        
+                // Send the data to the PHP backend
+                fetch("mail_sender.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(emailData),
+                    mode: "no-cors"  // Use no-cors if the backend has CORS issues
+                })
+                .then(response => {
+                    // Check if the response is OK (status code 200-299)
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    // Try to parse the response as JSON
+                    return response.json().catch(error => {
+                        throw new Error('Failed to parse JSON: ' + error);
+                    });
+                })
+                .then(data => {
+                    if (data.code === 200) {
+                        alert("Mail has been sent to all users."); 
+                    } else {
+                        console.log("Failed to send the email: " + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error sending email:", error);
+                }); 
+        }
 
     </script>
 </head>
