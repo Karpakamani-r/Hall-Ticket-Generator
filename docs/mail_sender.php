@@ -22,8 +22,8 @@ $emailData = [
 ];
 
 // API URL
-//$apiUrl = 'https://mailer-86mb.onrender.com/html/mail';
-$apiUrl = 'http://localhost:8080/html/mail';
+$apiUrl = 'https://mailer-86mb.onrender.com/html/mail';
+//$apiUrl = 'http://localhost:8080/html/mail';
 
 
 // Initialize cURL
