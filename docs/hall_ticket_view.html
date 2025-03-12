@@ -166,18 +166,19 @@ function transformData(data) {
                 name: item[0],
                 regNo: item[1],
                 dob: item[2],
-                profileImage: item[3],
-                course: item[4],
-                branch: item[5],
+                email: item[3],
+                profileImage: item[4],
+                course: item[5],
+                branch: item[6],
                 subjects: []
             };
         }
 
         result[item.regNo].subjects.push({
-            subNo: item[6],
-            subCode: item[7],
-            subName: item[8],
-            examDate: formatDate(item[9])
+            subNo: item[7],
+            subCode: item[8],
+            subName: item[9],
+            examDate: formatDate(item[10])
         });
     });
     console.log("📌 Final Transformed Data:", result);
