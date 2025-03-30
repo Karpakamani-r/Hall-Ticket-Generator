@@ -175,10 +175,10 @@ function transformData(data) {
         }
 
         result[item.regNo].subjects.push({
-            subNo: item[7],
-            subCode: item[8],
-            subName: item[9],
-            examDate: formatDate(item[10])
+            subNo: item[8],
+            subCode: item[9],
+            subName: item[10],
+            examDate: formatDate(item[11])
         });
     });
     console.log("📌 Final Transformed Data:", result);
